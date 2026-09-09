@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .stat-card h3 {
+            margin: 0 0 10px;
+            color: #6b7280;
+        }
+
+        .stat-card p {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .tasks-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .task {
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .task:last-child {
+            margin-bottom: 0;
+        }
+
+        .task h3 {
+            margin-top: 0;
+        }
+
+        .description {
+            color: #6b7280;
+        }
+
+        .completed {
+            color: green;
+            font-weight: bold;
+        }
+
+        .pending {
+            color: orange;
+            font-weight: bold;
+        }
+
+        .attachment {
+            margin-top: 10px;
+        }
+
+        .download {
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 700px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- User information -->
+
+        <div class="header">
+
+            <h1>TaskFlow Dashboard</h1>
+
+            <p>
+                Welcome, {{ user.name }}!
+            </p>
+
+            <p>
+                {{ user.email }}
+            </p>
+
+        </div>
+
+
+        <!-- Statistics -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <h3>Total Tasks</h3>
+
+                <p>
+                    {{ total_tasks }}
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Completed</h3>
+
+                <p>
+                    {{ completed_tasks }}
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Pending</h3>
+
+                <p>
+                    {{ pending_tasks }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Tasks -->
+
+        <div class="tasks-section">
+
+            <h2>My Tasks</h2>
+
+
+            {% if tasks %}
+
+                {% for task in tasks %}
+
+                    <div class="task">
+
+                        <h3>
+                            {{ task.title }}
+                        </h3>
+
+
+                        <p class="description">
+                            {{ task.description }}
+                        </p>
+
+
+                        <!-- Task status -->
+
+                        {% if task.completed %}
+
+                            <p class="completed">
+                                 Completed
+                            </p>
+
+                        {% else %}
+
+                            <p class="pending">
+                                 Pending
+                            </p>
+
+                        {% endif %}
+
+
+                        <!-- Attachment -->
+
+                        {% if task.file_name %}
+
+                            <div class="attachment">
+
+                                <p>
+                                    📎 {{ task.file_name }}
+                                </p>
+
+                                <p class="download">
+                                    Download:
+                                    /tasks/{{ task.id }}/file
+                                </p>
+
+                            </div>
+
+                        {% else %}
+
+                            <p>
+                                No attachment
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+
+            {% else %}
+
+                <p>
+                    You don't have any tasks yet.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
