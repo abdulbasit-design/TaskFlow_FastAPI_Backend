@@ -13,7 +13,7 @@ from fastapi import Request
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.user import User
-
+from test_report import run_tests
 
 Base.metadata.create_all(bind=engine)
 
@@ -98,5 +98,16 @@ def root():
         "message": "TaskFlow API is running"
     }
 
+@app.get("/test-report")
+def test_report(request: Request):
 
+    report = run_tests()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="test_report.html",
+        context={
+            **report
+        }
+    )
 

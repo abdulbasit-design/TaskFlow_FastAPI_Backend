@@ -1,0 +1,20 @@
+{
+    "total_tests": 1,
+    "passed": 1,
+    "failed": 0,
+    "pass_rate": 100.0,
+    "tests": [
+        {
+            "test_name": "Root Endpoint",
+            "method": "GET",
+            "endpoint": "/",
+            "expected_status": 200,
+            "actual_status": 200,
+            "expected_response": "TaskFlow API is running",
+            "actual_response": {
+                "message": "TaskFlow API is running"
+            },
+            "status": "PASS"
+        }
+    ]
+}

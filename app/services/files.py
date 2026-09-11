@@ -20,6 +20,15 @@ ALLOWED_EXTENSIONS = {
 MAX_FILE_SIZE = 5 * 1024 * 1024
 
 
+# File signatures (magic bytes)
+FILE_SIGNATURES = {
+    ".pdf": b"%PDF-",
+    ".png": b"\x89PNG\r\n\x1a\n",
+    ".jpg": b"\xff\xd8\xff",
+    ".jpeg": b"\xff\xd8\xff",
+}
+
+
 def save_task_file(
     db: Session,
     task: Task,
@@ -46,6 +55,15 @@ def save_task_file(
     # Validate file size
     if len(file_data) > MAX_FILE_SIZE:
         raise ValueError("File size must be 5 MB or less")
+
+    # Validate file content using magic bytes
+    expected_signature = FILE_SIGNATURES.get(extension)
+
+    if expected_signature:
+        if not file_data.startswith(expected_signature):
+            raise ValueError(
+                "File content does not match its extension"
+            )
 
     # Create task-specific directory
     task_directory = os.path.join(
@@ -103,3 +121,4 @@ def delete_task_file(
     db.refresh(task)
 
     return True
+

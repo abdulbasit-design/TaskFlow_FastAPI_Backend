@@ -10,7 +10,7 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-
+# The Engine is the Sql Alchemy Connecton with postgressql
 engine = create_engine(DATABASE_URL)
 
 
